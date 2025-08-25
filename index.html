@@ -1,38 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; }
-    header { background: #333; color: white; padding: 20px; }
-    section { padding: 50px; }
-    h1, h2 { margin: 10px 0; }
-    .btn { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
-    .btn:hover { background: #0056b3; }
-    footer { background: #333; color: white; padding: 10px; margin-top: 30px; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Welcome to the Divine Path | Tarot by Poonam</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0d10;
+    --card:#11141aee;
+    --muted:#9aa3af;
+    --text:#e7e9ee;
+    --brand:#ffd166;
+    --brand-2:#8ec5ff;
+    --accent:#e08cff;
+    --radius:18px;
+    --shadow: 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #1b2230 0%, transparent 60%),
+      radial-gradient(900px 600px at 90% 10%, #261a3a 0%, transparent 60%),
+      linear-gradient(180deg,#0b0d10 0%, #0b0d10 100%);
+    background-attachment: fixed;
+  }
+
+  /* NAV */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:saturate(140%) blur(10px);
+    background: linear-gradient(180deg, #0b0d10cc, #0b0d10aa);
+    border-bottom:1px solid #1f2530;
+  }
+  .nav .wrap{
+    max-width:1100px; margin:auto; padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .brand{
+    font-family:"Playfair Display",serif;
+    font-weight:700; letter-spacing:.5px; color:var(--brand);
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+  .nav a{color:var(--text);text-decoration:none;font-weight:600;opacity:.9}
+  .nav ul{display:flex;gap:22px;list-style:none}
+  .nav a:hover{color:var(--brand)}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:.5rem;
+    padding:.9rem 1.1rem; border-radius:999px; text-decoration:none;
+    background:linear-gradient(135deg,var(--brand),#ff9f4d);
+    color:#272316; font-weight:800; box-shadow:0 8px 24px rgba(255,185,72,.35);
+    transform:translateY(0); transition:.25s ease;
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 14px 28px rgba(255,185,72,.55)}
+
+  /* HERO */
+  .hero{
+    position:relative; overflow:hidden;
+    display:grid; place-items:center; text-align:center;
+    min-height:78vh;
+  }
+  .hero .stars{position:absolute; inset:-20% -10%; background:url('https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat; filter:brightness(.35) contrast(1.05) saturate(1.05); transform:scale(1.05)}
+  .hero .veil{position:absolute; inset:0; background:radial-gradient(60% 60% at 50% 40%, #00000000 0%, #0b0d10 90%)}
+  .hero .content{position:relative; padding:0 20px; max-width:900px; animation:fadeUp .9s ease both}
+  .kicker{
+    color:var(--brand); font-weight:700; letter-spacing:.18em; text-transform:uppercase; font-size:.82rem; opacity:.9
+  }
+  .h1{
+    font-family:"Playfair Display",serif; font-size:clamp(2.4rem,5vw,3.4rem);
+    line-height:1.1; margin:.6rem 0 1rem;
+    text-shadow:0 10px 30px rgba(0,0,0,.6);
+  }
+  .sub{
+    max-width:680px; margin:auto; color:var(--muted);
+    font-size:1.02rem
+  }
+  .hero .cta{margin-top:1.6rem; gap:12px}
+  .ghost{
+    padding:.9rem 1.1rem; border-radius:999px; border:1px solid #313948;
+    background:#141821; color:#c7ceda; font-weight:700; text-decoration:none;
+    transition:.25s ease
+  }
+  .ghost:hover{border-color:#43506a; transform:translateY(-2px)}
+
+  /* SECTION WRAPPER */
+  .section{max-width:1100px; margin:72px auto; padding:0 20px}
+  .section h2{
+    font-family:"Playfair Display",serif; font-size:clamp(1.8rem,3.2vw,2.3rem);
+    margin-bottom:14px
+  }
+  .lead{color:var(--muted)}
+
+  /* WHAT IS TAROT */
+  .grid{
+    display:grid; gap:26px; align-items:start
+  }
+  @media (min-width:920px){
+    .grid{grid-template-columns:1.15fr .85fr}
+  }
+  .card{
+    background:linear-gradient(180deg, var(--card), #0f1320ee);
+    border:1px solid #1f2530; border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:24px
+  }
+  .imgcard{
+    background:linear-gradient(180deg,#0d111b,#0f1320); border:1px solid #1f2530; border-radius:var(--radius); box-shadow:var(--shadow); padding:14px
+  }
+  .imgcard img{width:100%; height:auto; border-radius:calc(var(--radius) - 8px)}
+
+  /* SERVICES */
+  .services{display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); margin-top:18px}
+  .service{
+    position:relative; overflow:hidden;
+    background:linear-gradient(160deg,#121725,#0f1320);
+    border:1px solid #21293a; border-radius:16px; padding:22px 20px;
+    transition:.35s ease; box-shadow:0 6px 18px rgba(0,0,0,.25)
+  }
+  .service:hover{transform:translateY(-6px); box-shadow:0 14px 28px rgba(0,0,0,.35); border-color:#2a3550}
+  .service .tag{
+    background:linear-gradient(135deg,var(--brand-2),var(--accent));
+    color:#0a0e14; font-weight:800; font-size:.8rem;
+    border-radius:999px; padding:.28rem .6rem; display:inline-block; margin-bottom:10px
+  }
+  .service h3{margin:.25rem 0 .5rem; font-size:1.05rem}
+  .service p{color:var(--muted); font-size:.95rem}
+
+  /* ABOUT */
+  .about{
+    display:grid; gap:26px; align-items:center
+  }
+  @media (min-width:920px){
+    .about{grid-template-columns:.9fr 1.1fr}
+  }
+  .pill{
+    display:inline-block; padding:.4rem .7rem; border:1px solid #2a3350; border-radius:999px; color:#cbd3e6; font-size:.8rem; margin-bottom:10px
+  }
+
+  /* CONTACT */
+  .contact{
+    display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); margin-top:18px
+  }
+  .contact a{
+    text-decoration:none; color:var(--text)
+  }
+  .contact .tile{
+    background:linear-gradient(160deg,#121725,#0f1320); border:1px solid #21293a;
+    border-radius:16px; padding:18px; transition:.3s ease; box-shadow:0 6px 18px rgba(0,0,0,.25)
+  }
+  .contact .tile:hover{transform:translateY(-6px); border-color:#2a3550}
+  .contact .k{opacity:.8; font-weight:700; letter-spacing:.1em; text-transform:uppercase; font-size:.72rem; color:#b7c0d6}
+  .contact .v{font-size:1.05rem; font-weight:700}
+
+  /* FOOTER */
+  footer{margin-top:70px; padding:26px 16px; text-align:center; color:#a9b3c9; border-top:1px solid #1f2530}
+  footer a{color:var(--brand); text-decoration:none}
+
+  /* REVEAL ANIMS */
+  [data-reveal]{opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease}
+  [data-reveal].show{opacity:1; transform:none}
+
+  @keyframes fadeUp{from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:none}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to My Website</h1>
-    <p>This is my free website hosted on GitHub Pages 🚀</p>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap">
+      <div class="brand"><span class="dot"></span> Divine Path</div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#what">What is Tarot?</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="btn" href="#contact">Book a Reading ✨</a>
+    </div>
   </header>
 
-  <section>
-    <h2>About Me</h2>
-    <p>Hello! I'm learning how to create websites for free.</p>
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="stars"></div><div class="veil"></div>
+    <div class="content">
+      <div class="kicker">Guided by Tarot • Blessed by God</div>
+      <h1 class="h1">Welcome to the Divine Path</h1>
+      <p class="sub">“Life is full of mysteries, choices, and turning points. Tarot is not about predicting the future—it’s about seeking clarity, wisdom, and guidance from the Universe. Here, every card reveals a message meant for your Soul’s journey.”</p>
+      <div class="cta" style="display:flex;justify-content:center;flex-wrap:wrap;">
+        <a class="btn" href="#services">Explore Services</a>
+        <a class="ghost" href="#about">About Me</a>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Email: yourname@example.com</p>
-    <a href="mailto:yourname@example.com" class="btn">Send Email</a>
+  <!-- WHAT IS TAROT -->
+  <section id="what" class="section grid">
+    <div class="card" data-reveal>
+      <h2>What is Tarot?</h2>
+      <p class="lead">Tarot is not about predicting the future — it is about understanding the present.</p>
+      <div style="height:10px"></div>
+      <p>Every card in the deck holds a deep symbolic meaning. Together, they create a mirror of your Soul’s journey, helping you uncover truths, hidden patterns, and the guidance you seek.</p>
+      <div style="height:12px"></div>
+      <p>Through Tarot, you can:</p>
+      <ul style="margin:10px 0 0 18px; line-height:1.9">
+        <li>Find clarity in confusion</li>
+        <li>Heal emotional wounds</li>
+        <li>Gain insight into love, career & life decisions</li>
+        <li>Reconnect with your higher self</li>
+      </ul>
+      <div style="height:12px"></div>
+      <p class="lead">Tarot is not magic — it is wisdom. It is the art of listening to the Universe through symbols, intuition, and divine energy.</p>
+    </div>
+
+    <div class="imgcard" data-reveal>
+      <img alt="Tarot reading" src="https://images.unsplash.com/photo-1541348263662-e068662d82af?q=80&w=1200&auto=format&fit=crop" />
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <h2 data-reveal>Tarot & Spiritual Services 🔥</h2>
+    <p class="lead" data-reveal>Choose the reading that resonates with your journey:</p>
+
+    <div class="services">
+      <div class="service" data-reveal>
+        <span class="tag">General Guidance</span>
+        <h3>Clarity on your current path</h3>
+        <p>Understand where you are and what the Universe is trying to show you.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Love & Relationships</span>
+        <h3>Healing & deeper connection</h3>
+        <p>Insights for trust, communication and soulful compatibility.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Career & Finance</span>
+        <h3>Purpose, progress & decisions</h3>
+        <p>Guidance for opportunities, risks and aligned choices.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Future Insights</span>
+        <h3>Navigate upcoming energies</h3>
+        <p>See the patterns ahead so you can move with confidence.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Custom Reading</span>
+        <h3>Personalized spread for your question</h3>
+        <p>Tailored guidance delivered with honesty, kindness and blessings.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:22px" data-reveal>
+      <a class="btn" href="#contact">Book Your Session ✨</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section about">
+    <div class="imgcard" data-reveal>
+      <img alt="About Tarot Reader" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop" />
+    </div>
+
+    <div class="card" data-reveal>
+      <span class="pill">About Me</span>
+      <h2>Hi, I’m Poonam (Poornika)</h2>
+      <p class="lead">I’m a Tarot reader and spiritual guide. For me, Tarot is not just a deck of cards — it’s a mirror of our soul. Each card reflects hidden truths, energies and opportunities we often overlook.</p>
+      <div style="height:12px"></div>
+      <p>My purpose is simple: to help you find clarity in times of confusion, peace in times of chaos, and hope in times of doubt. Every reading is done with respect, compassion and divine intention.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <h2 data-reveal>Let’s Connect ✨</h2>
+    <p class="lead" data-reveal>Your answers are waiting to be revealed. Book your Tarot session today.</p>
+
+    <div class="contact">
+      <!-- CHANGE YOUR LINKS BELOW -->
+      <a href="mailto:yourmail@example.com" class="tile" data-reveal>
+        <div class="k">Email</div>
+        <div class="v">yourmail@example.com</div>
+      </a>
+
+      <a href="https://wa.me/911234567890" target="_blank" class="tile" data-reveal>
+        <div class="k">WhatsApp</div>
+        <div class="v">+91 12345 67890</div>
+      </a>
+
+      <a href="https://instagram.com/yourhandle" target="_blank" class="tile" data-reveal>
+        <div class="k">Social</div>
+        <div class="v">@yourhandle</div>
+      </a>
+    </div>
+
+    <div style="text-align:center; margin-top:22px" data-reveal>
+      <a class="ghost" href="#home">Back to top ↑</a>
+    </div>
   </section>
 
   <footer>
-    <p>© 2025 My Portfolio</p>
+    Guidance through Tarot, Blessings through the Divine • © 2025 Poonam/Poornika — All Rights Reserved • Built with ❤️
   </footer>
+
+<script>
+  // reveal on scroll
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    })
+  },{threshold:.14});
+  document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
