@@ -1,279 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Astrology & Tarot Suite | Premium</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <style>
-    body {
-      background: #0f172a;
-      color: #f8fafc;
-      font-family: 'Inter', sans-serif;
-    }
-    header {
-      background: linear-gradient(90deg, #4f46e5, #9333ea);
-      padding: 20px;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #fff;
-      border-bottom: 2px solid #6366f1;
-    }
-    section {
-      padding: 3rem 1rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .card {
-      background: #1e293b;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      margin-bottom: 2rem;
-    }
-    input, select, button {
-      background: #0f172a;
-      color: #f8fafc;
-      border: 1px solid #334155;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-    button {
-      background: #4f46e5;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #6366f1;
-    }
-    .tarot-card {
-      display: inline-block;
-      text-align: center;
-      margin: 10px;
-    }
-    .tarot-card img {
-      width: 100px;
-      border-radius: 0.5rem;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Welcome to the Divine Path | Tarot by Poonam</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0d10;
+    --card:#11141aee;
+    --muted:#9aa3af;
+    --text:#e7e9ee;
+    --brand:#ffd166;
+    --brand-2:#8ec5ff;
+    --accent:#e08cff;
+    --ok:#4ade80;
+    --radius:18px;
+    --shadow: 0 10px 30px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #1b2230 0%, transparent 60%),
+      radial-gradient(900px 600px at 90% 10%, #261a3a 0%, transparent 60%),
+      linear-gradient(180deg,#0b0d10 0%, #0b0d10 100%);
+    background-attachment: fixed;
+  }
+
+  /* NAV */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:saturate(140%) blur(10px);
+    background: linear-gradient(180deg, #0b0d10cc, #0b0d10aa);
+    border-bottom:1px solid #1f2530;
+  }
+  .nav .wrap{
+    max-width:1100px; margin:auto; padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .brand{
+    font-family:"Playfair Display",serif;
+    font-weight:700; letter-spacing:.5px; color:var(--brand);
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+  .nav a{color:var(--text);text-decoration:none;font-weight:600;opacity:.9}
+  .nav ul{display:flex;gap:22px;list-style:none}
+  .nav a:hover{color:var(--brand)}
+
+  /* GLASSY BUTTONS */
+  .btn, .ghost{
+    position:relative; isolation:isolate;
+    display:inline-flex; align-items:center; gap:.55rem;
+    padding:.9rem 1.15rem; border-radius:999px; text-decoration:none;
+    font-weight:800; transform:translateY(0) scale(1); transition:.35s ease;
+    box-shadow:0 10px 24px rgba(0,0,0,.35);
+    overflow:hidden; backdrop-filter: blur(10px) saturate(140%);
+  }
+  .btn{
+    background:linear-gradient(135deg, #ffffff33, #ffffff12),
+               radial-gradient(60% 120% at 20% 0%, var(--brand) 0%, #ff9f4d 55%, #ff7b33 100%);
+    color:#272316; border:1px solid #ffffff55;
+  }
+  .ghost{
+    background:linear-gradient(135deg,#1a2030aa,#0f1320aa);
+    color:#c7ceda; border:1px solid #3a455c;
+  }
+  /* water-drop highlight */
+  .btn::before, .ghost::before{
+    content:""; position:absolute; inset:auto auto 8% 10%; width:86%; height:42%;
+    background:radial-gradient(120% 120% at 50% 0%, #ffffff80 0%, #ffffff10 55%, transparent 70%);
+    border-radius:999px; filter:blur(2px); opacity:.7; pointer-events:none;
+    transform:translateY(0); transition:transform .35s ease,opacity .35s ease;
+  }
+  /* floating glass droplet */
+  .btn::after, .ghost::after{
+    content:""; position:absolute; top:10%; right:12%; width:18px; height:18px; border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #fff8 0%, #fff2 45%, #fff0 70%);
+    box-shadow:inset 0 0 10px #fff3, 0 8px 14px #0004; filter:blur(.2px);
+    animation:float 3.2s ease-in-out infinite;
+  }
+  .btn:hover, .ghost:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 16px 28px rgba(0,0,0,.45)}
+  .btn:active, .ghost:active{ transform:translateY(0) scale(.99) }
+  .btn:hover::before, .ghost:hover::before{ transform:translateY(-3px); opacity:.9 }
+
+  @keyframes float{ 0%,100%{ transform:translateY(0)} 50%{ transform:translateY(-6px)} }
+
+  /* HERO */
+  .hero{
+    position:relative; overflow:hidden;
+    display:grid; place-items:center; text-align:center;
+    min-height:78vh;
+  }
+  .hero .stars{position:absolute; inset:-20% -10%; background:url('https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat; filter:brightness(.35) contrast(1.05) saturate(1.05); transform:scale(1.05)}
+  .hero .veil{position:absolute; inset:0; background:radial-gradient(60% 60% at 50% 40%, #00000000 0%, #0b0d10 90%)}
+  .hero .content{position:relative; padding:0 20px; max-width:900px; animation:fadeUp .9s ease both}
+  .kicker{
+    color:var(--brand); font-weight:700; letter-spacing:.18em; text-transform:uppercase; font-size:.82rem; opacity:.9
+  }
+  .h1{
+    font-family:"Playfair Display",serif; font-size:clamp(2.4rem,5vw,3.4rem);
+    line-height:1.1; margin:.6rem 0 1rem;
+    text-shadow:0 10px 30px rgba(0,0,0,.6);
+  }
+  .sub{
+    max-width:680px; margin:auto; color:var(--muted);
+    font-size:1.02rem
+  }
+  .hero .cta{margin-top:1.6rem; gap:12px}
+
+  /* SECTION WRAPPER */
+  .section{max-width:1100px; margin:72px auto; padding:0 20px}
+  .section h2{
+    font-family:"Playfair Display",serif; font-size:clamp(1.8rem,3.2vw,2.3rem);
+    margin-bottom:14px
+  }
+  .lead{color:var(--muted)}
+
+  /* WHAT IS TAROT */
+  .grid{ display:grid; gap:26px; align-items:start }
+  @media (min-width:920px){ .grid{grid-template-columns:1.15fr .85fr} }
+  .card{
+    background:linear-gradient(180deg, var(--card), #0f1320ee);
+    border:1px solid #1f2530; border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:24px
+  }
+  .imgcard{
+    position:relative; overflow:hidden;
+    background:linear-gradient(180deg,#0d111b,#0f1320); border:1px solid #1f2530; border-radius:var(--radius); box-shadow:var(--shadow); padding:14px
+  }
+  .imgcard img{width:100%; height:auto; border-radius:calc(var(--radius) - 8px); display:block; filter:saturate(1.05) contrast(1.02)}
+  .imgcard::after{content:""; position:absolute; inset:6px; border-radius:calc(var(--radius) - 8px); pointer-events:none; box-shadow:inset 0 0 0 1px #ffffff10}
+
+  /* SERVICES */
+  .services{display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); margin-top:18px}
+  .service{
+    position:relative; overflow:hidden;
+    background:linear-gradient(160deg,#121725,#0f1320);
+    border:1px solid #21293a; border-radius:16px; padding:22px 20px;
+    transition:.35s ease; box-shadow:0 6px 18px rgba(0,0,0,.25)
+  }
+  .service:hover{transform:translateY(-6px) rotateX(2deg); box-shadow:0 14px 28px rgba(0,0,0,.35); border-color:#2a3550}
+  .service .tag{
+    background:linear-gradient(135deg,var(--brand-2),var(--accent));
+    color:#0a0e14; font-weight:800; font-size:.8rem;
+    border-radius:999px; padding:.28rem .6rem; display:inline-block; margin-bottom:10px
+  }
+  .service h3{margin:.25rem 0 .5rem; font-size:1.05rem}
+  .service p{color:var(--muted); font-size:.95rem}
+
+  /* ABOUT */
+  .about{ display:grid; gap:26px; align-items:center }
+  @media (min-width:920px){ .about{grid-template-columns:.9fr 1.1fr} }
+  .pill{ display:inline-block; padding:.4rem .7rem; border:1px solid #2a3350; border-radius:999px; color:#cbd3e6; font-size:.8rem; margin-bottom:10px }
+
+  /* CONTACT */
+  .contact{ display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); margin-top:18px }
+  .contact a{ text-decoration:none; color:var(--text) }
+  .contact .tile{
+    background:linear-gradient(160deg,#121725,#0f1320); border:1px solid #21293a;
+    border-radius:16px; padding:18px; transition:.3s ease; box-shadow:0 6px 18px rgba(0,0,0,.25)
+  }
+  .contact .tile:hover{transform:translateY(-6px); border-color:#2a3550}
+  .contact .k{opacity:.8; font-weight:700; letter-spacing:.1em; text-transform:uppercase; font-size:.72rem; color:#b7c0d6}
+  .contact .v{font-size:1.05rem; font-weight:700}
+
+  /* FOOTER */
+  footer{margin-top:70px; padding:26px 16px; text-align:center; color:#a9b3c9; border-top:1px solid #1f2530}
+  footer a{color:var(--brand); text-decoration:none}
+
+  /* REVEAL ANIMS */
+  [data-reveal]{opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease}
+  [data-reveal].show{opacity:1; transform:none}
+
+  @keyframes fadeUp{from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:none}}
+
+  /* UTIL */
+  .center{text-align:center}
+</style>
 </head>
 <body>
-  <header>
-    Astrology & Tarot Suite <br>
-    <span class="text-sm">Part of Poornika Main Website</span>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap">
+      <div class="brand"><span class="dot"></span> Divine Path</div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#what">What is Tarot?</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="btn" href="#contact" aria-label="Book a Reading">Book a Reading ✨</a>
+    </div>
   </header>
 
-  <!-- Astrology Section -->
-  <section>
-    <h2 class="text-2xl font-bold mb-4 text-indigo-400">Astrology Calculator</h2>
-    <div class="card">
-      <input type="text" id="name" placeholder="Enter your Name">
-      <input type="date" id="birthdate">
-      <input type="time" id="birthtime">
-      <input type="text" id="birthplace" placeholder="Enter Birthplace">
-      <button onclick="calculateAstrology()">Calculate Astrology</button>
-      <div id="astrology-result" class="mt-4 text-gray-300"></div>
+  <!-- HERO -->
+  <section id="home" class="hero" aria-label="Welcome">
+    <div class="stars" aria-hidden="true"></div><div class="veil" aria-hidden="true"></div>
+    <div class="content">
+      <div class="kicker">Guided by Tarot • Blessed by God</div>
+      <h1 class="h1">Welcome to the Divine Path</h1>
+      <p class="sub">“Life is full of mysteries, choices, and turning points. Tarot is not about predicting the future—it’s about seeking clarity, wisdom, and guidance from the Universe. Here, every card reveals a message meant for your Soul’s journey.”</p>
+      <div class="cta" style="display:flex;justify-content:center;flex-wrap:wrap;">
+        <a class="btn" href="#services">Explore Services</a>
+        <a class="ghost" href="#about">About Me</a>
+      </div>
     </div>
   </section>
 
-  <!-- Numerology Section -->
-  <section>
-    <h2 class="text-2xl font-bold mb-4 text-indigo-400">Numerology Calculator</h2>
-    <div class="card">
-      <input type="text" id="num-name" placeholder="Enter your Name">
-      <input type="date" id="num-birthdate">
-      <button onclick="calculateNumerology()">Calculate Numerology</button>
-      <div id="numerology-result" class="mt-4 text-gray-300"></div>
+  <!-- WHAT IS TAROT -->
+  <section id="what" class="section grid">
+    <div class="card" data-reveal>
+      <h2>What is Tarot?</h2>
+      <p class="lead">Tarot is not about predicting the future — it is about understanding the present.</p>
+      <div style="height:10px"></div>
+      <p>Every card in the deck holds a deep symbolic meaning. Together, they create a mirror of your Soul’s journey, helping you uncover truths, hidden patterns, and the guidance you seek.</p>
+      <div style="height:12px"></div>
+      <p>Through Tarot, you can:</n>
+      <ul style="margin:10px 0 0 18px; line-height:1.9">
+        <li>Find clarity in confusion</li>
+        <li>Heal emotional wounds</li>
+        <li>Gain insight into love, career & life decisions</li>
+        <li>Reconnect with your higher self</li>
+      </ul>
+      <div style="height:12px"></div>
+      <p class="lead">Tarot is not magic — it is wisdom. It is the art of listening to the Universe through symbols, intuition, and divine energy.</p>
+    </div>
+
+    <div class="imgcard" data-reveal>
+      <!-- Tarot image (auto from Unsplash) -->
+      <img alt="Tarot reading on table" src="https://source.unsplash.com/1200x900/?tarot,reading,cards" />
     </div>
   </section>
 
-  <!-- Tarot Reading -->
-  <section>
-    <h2 class="text-2xl font-bold mb-4 text-indigo-400">Tarot Reading</h2>
-    <div class="card">
-      <input type="text" id="tarot-question" placeholder="Enter your question">
-      <p class="mb-2">Choose Mode:</p>
-      <label><input type="radio" name="tarot-mode" value="offline" checked> Offline</label>
-      <label><input type="radio" name="tarot-mode" value="freeAI"> Free AI</label>
-      <label><input type="radio" name="tarot-mode" value="openai"> OpenAI</label>
-      <p class="mb-2 mt-4">Select Spread:</p>
-      <select id="tarot-spread">
-        <option value="basic">Basic (3 Cards)</option>
-        <option value="celtic-cross">Celtic Cross (10 Cards)</option>
-        <option value="relationship">Relationship (6 Cards)</option>
-        <option value="career">Career (5 Cards)</option>
-      </select>
-      <button onclick="drawTarot()">Draw Tarot Cards</button>
-      <div id="tarot-result" class="mt-4 text-gray-300"></div>
-      <div id="tarot-cards" class="mt-4"></div>
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <h2 data-reveal>Tarot & Spiritual Services 🔥</h2>
+    <p class="lead" data-reveal>Choose the reading that resonates with your journey:</p>
+
+    <div class="services">
+      <div class="service" data-reveal>
+        <span class="tag">General Guidance</span>
+        <h3>Clarity on your current path</h3>
+        <p>Understand where you are and what the Universe is trying to show you.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Love & Relationships</span>
+        <h3>Healing & deeper connection</h3>
+        <p>Insights for trust, communication and soulful compatibility.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Career & Finance</span>
+        <h3>Purpose, progress & decisions</h3>
+        <p>Guidance for opportunities, risks and aligned choices.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Future Insights</span>
+        <h3>Navigate upcoming energies</h3>
+        <p>See the patterns ahead so you can move with confidence.</p>
+      </div>
+
+      <div class="service" data-reveal>
+        <span class="tag">Custom Reading</span>
+        <h3>Personalized spread for your question</h3>
+        <p>Tailored guidance delivered with honesty, kindness and blessings.</p>
+      </div>
+    </div>
+
+    <div class="center" style="margin-top:22px" data-reveal>
+      <a class="btn" href="#contact">Book Your Session ✨</a>
     </div>
   </section>
 
-  <!-- GSAP Animations -->
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.from("header", { y: -100, duration: 1, ease: "power4.out" });
-    gsap.from("section h2", {
-      scrollTrigger: { trigger: "section h2", start: "top 90%" },
-      y: 50, opacity: 0, duration: 1, stagger: 0.3
+  <!-- ABOUT -->
+  <section id="about" class="section about">
+    <div class="imgcard" data-reveal>
+      <!-- Tarot portrait image -->
+      <img alt="Tarot reader with cards" src="https://source.unsplash.com/1200x900/?tarot,oracle,deck" />
+    </div>
+
+    <div class="card" data-reveal>
+      <span class="pill">About Me</span>
+      <h2>Hi, I’m Poonam (Poornika)</h2>
+      <p class="lead">I’m a Tarot reader and spiritual guide. For me, Tarot is not just a deck of cards — it’s a mirror of our soul. Each card reflects hidden truths, energies and opportunities we often overlook.</p>
+      <div style="height:12px"></div>
+      <p>My purpose is simple: to help you find clarity in times of confusion, peace in times of chaos, and hope in times of doubt. Every reading is done with respect, compassion and divine intention.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <h2 data-reveal>Let’s Connect ✨</h2>
+    <p class="lead" data-reveal>Your answers are waiting to be revealed. Book your Tarot session today.</p>
+
+    <div class="contact">
+      <!-- Fully functional links -->
+      <a href="mailto:divinepath743@gmail.com" class="tile" data-reveal>
+        <div class="k">Email</div>
+        <div class="v">divinepath743@gmail.com</div>
+      </a>
+
+      <a href="https://wa.me/919835230370" target="_blank" rel="noopener" class="tile" data-reveal>
+        <div class="k">WhatsApp</div>
+        <div class="v">+91 9835230370</div>
+      </a>
+
+      <a href="https://instagram.com/punamtarotcardreader" target="_blank" rel="noopener" class="tile" data-reveal>
+        <div class="k">Social</div>
+        <div class="v">@punamtarotcardreader</div>
+      </a>
+    </div>
+
+    <div class="center" style="margin-top:22px" data-reveal>
+      <a class="ghost" href="#home">Back to top ↑</a>
+    </div>
+  </section>
+
+  <footer>
+    Guidance through Tarot, Blessings through the Divine • © 2025 Poonam/Poornika — All Rights Reserved • Built with ❤️
+  </footer>
+
+<script>
+  // reveal on scroll
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    })
+  },{threshold:.14});
+  document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+  // subtle parallax on hero background
+  const stars = document.querySelector('.hero .stars');
+  window.addEventListener('mousemove', (e)=>{
+    const x = (e.clientX / window.innerWidth - .5) * 8;
+    const y = (e.clientY / window.innerHeight - .5) * 8;
+    stars.style.transform = `scale(1.06) translate(${x}px, ${y}px)`;
+  });
+
+  // button shimmer on hover
+  const shimmers = document.querySelectorAll('.btn, .ghost');
+  shimmers.forEach(btn=>{
+    btn.addEventListener('pointermove', (e)=>{
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+      btn.style.setProperty('--mx', x + 'px');
+      btn.style.setProperty('--my', y + 'px');
     });
-    gsap.from("section div", {
-      scrollTrigger: { trigger: "section div", start: "top 85%" },
-      opacity: 0, y: 30, duration: 1, stagger: 0.2
-    });
-  </script>
-
-  <!-- Main JS Logic -->
-  <script>
-    /* ---------------------------
-       1. ASTROLOGY CALCULATOR
-    ---------------------------- */
-    async function calculateAstrology() {
-      const name = document.getElementById('name').value;
-      const birthdate = document.getElementById('birthdate').value;
-      const birthtime = document.getElementById('birthtime').value;
-      const birthplace = document.getElementById('birthplace').value;
-
-      const resultDiv = document.getElementById('astrology-result');
-      resultDiv.innerHTML = "<p class='text-gray-400'>Calculating...</p>";
-
-      try {
-        // Auto location coordinates
-        let coords = { lat: null, lon: null };
-        if (birthplace) {
-          const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(birthplace)}`);
-          const geoData = await geoRes.json();
-          if (geoData && geoData.length > 0) {
-            coords.lat = geoData[0].lat;
-            coords.lon = geoData[0].lon;
-          }
-        }
-
-        const signIndex = new Date(birthdate).getMonth(); 
-        const signs = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
-        const sign = signs[signIndex % 12];
-
-        resultDiv.innerHTML = `
-          <h3 class="text-xl font-bold mb-2 text-indigo-400">Astrology Report</h3>
-          <p>Name: ${name}</p>
-          <p>Date of Birth: ${birthdate}</p>
-          <p>Time: ${birthtime}</p>
-          <p>Place: ${birthplace}</p>
-          <p>Sun Sign: ${sign}</p>
-          <p><em>Coordinates:</em> ${coords.lat ? coords.lat + ", " + coords.lon : "Not found"}</p>
-        `;
-      } catch (error) {
-        resultDiv.innerHTML = "<p class='text-red-400'>Error in calculation</p>";
-      }
-    }
-
-    /* ---------------------------
-       2. NUMEROLOGY CALCULATOR
-    ---------------------------- */
-    function calculateNumerology() {
-      const name = document.getElementById('num-name').value.toUpperCase();
-      const birthdate = document.getElementById('num-birthdate').value;
-
-      const resultDiv = document.getElementById('numerology-result');
-      resultDiv.innerHTML = "<p class='text-gray-400'>Calculating...</p>";
-
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      let nameValue = 0;
-      for (let char of name) {
-        let pos = letters.indexOf(char);
-        if (pos !== -1) nameValue += (pos % 9) + 1;
-      }
-
-      let lifePath = birthdate.replace(/-/g,"").split("").reduce((a,b)=>a+parseInt(b),0);
-      while (lifePath > 9) lifePath = lifePath.toString().split("").reduce((a,b)=>a+parseInt(b),0);
-
-      resultDiv.innerHTML = `
-        <h3 class="text-xl font-bold mb-2 text-indigo-400">Numerology Report</h3>
-        <p>Expression Number: ${reduceToSingleDigit(nameValue)}</p>
-        <p>Life Path Number: ${lifePath}</p>
-        <p>Destiny Number: ${reduceToSingleDigit(nameValue + lifePath)}</p>
-      `;
-    }
-
-    function reduceToSingleDigit(num) {
-      while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
-        num = num.toString().split("").reduce((a,b)=>a+parseInt(b),0);
-      }
-      return num;
-    }
-
-    /* ---------------------------
-       3. TAROT READING
-    ---------------------------- */
-    const tarotDeck = [
-      "The Fool","The Magician","The High Priestess","The Empress","The Emperor",
-      "The Hierophant","The Lovers","The Chariot","Strength","The Hermit",
-      "Wheel of Fortune","Justice","The Hanged Man","Death","Temperance",
-      "The Devil","The Tower","The Star","The Moon","The Sun","Judgement","The World"
-    ];
-
-    function drawTarot() {
-      const question = document.getElementById('tarot-question').value;
-      const mode = document.querySelector('input[name="tarot-mode"]:checked').value;
-      const spread = document.getElementById('tarot-spread').value;
-      const tarotResult = document.getElementById('tarot-result');
-      const tarotCardsDiv = document.getElementById('tarot-cards');
-      
-      tarotResult.innerHTML = "<p class='text-gray-400'>Drawing cards...</p>";
-      tarotCardsDiv.innerHTML = "";
-
-      let count = 3;
-      if (spread === "celtic-cross") count = 10;
-      else if (spread === "relationship") count = 6;
-      else if (spread === "career") count = 5;
-
-      const selectedCards = [];
-      for (let i = 0; i < count; i++) {
-        const randomIndex = Math.floor(Math.random() * tarotDeck.length);
-        selectedCards.push(tarotDeck[randomIndex]);
-      }
-
-      if (mode === "offline") {
-        tarotResult.innerHTML = `<p class='text-indigo-400 font-bold'>Offline Reading:</p><p>${basicTarotInterpretation(selectedCards, question)}</p>`;
-      } else {
-        tarotResult.innerHTML = `<p class='text-gray-400'>Fetching AI interpretation...</p>`;
-        fetchAIInterpretation(selectedCards, question, mode).then(response => {
-          tarotResult.innerHTML = `<p class='text-indigo-400 font-bold'>AI Reading:</p><p>${response}</p>`;
-        }).catch(() => {
-          tarotResult.innerHTML = "<p class='text-red-400'>AI API failed. Showing offline interpretation.</p><p>" + basicTarotInterpretation(selectedCards, question) + "</p>";
-        });
-      }
-
-      selectedCards.forEach(card => {
-        tarotCardsDiv.innerHTML += `
-          <div class="tarot-card">
-            <img src="https://www.sacred-texts.com/tarot/pkt/img/${card.toLowerCase().replace(/ /g,'')}.jpg" alt="${card}">
-            <p class="text-sm">${card}</p>
-          </div>
-        `;
-      });
-    }
-
-    function basicTarotInterpretation(cards, question) {
-      return `Your question: ${question}. Cards drawn: ${cards.join(", ")}. This spread suggests important insights about your situation.`;
-    }
-
-    async function fetchAIInterpretation(cards, question, mode) {
-      if (mode === "freeAI") {
-        // Mock free API response
-        return `Free AI: Based on your question "${question}" and cards [${cards.join(", ")}], the reading suggests transformation and new opportunities.`;
-      } else if (mode === "openai") {
-        // Placeholder (replace with real OpenAI API logic)
-        return `OpenAI: Detailed interpretation for "${question}" with cards [${cards.join(", ")}].`;
-      }
-    }
-  </script>
+  });
+</script>
 </body>
 </html>
